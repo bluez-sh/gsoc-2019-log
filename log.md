@@ -6,7 +6,7 @@ I guess I really underestimated the investigation time. It might take a few
 more days to get a proper understanding of the format before I start working.
 As of now, my aim is to modify the lavf/movenc.c (mov muxer) so as to produce
 heif/heic files from it. This will help me get a better insight of the format
-(as suggested by my mentor, Carl).
+(as suggested by my mentor, Carl Eugen).
 
 Today I mostly investigated the samples available in the original ticket.
 MP4Box (by GPAC) can dump the "box" structure of heif files in a nicely detailed
@@ -44,11 +44,11 @@ One of the main features of heif is that it can support a wide range of codecs,
 hevc being the focus as it provided the best compression (the reason it is known
 for being twice as efficient as jpeg images in terms of space). Now it would
 make sense if the muxer I write supports hevc by default. So I decided to go for
-it, but the mov muxer itself doesn't support hevc, and I have a feeling there is 
+it, but the mov muxer itself doesn't support hevc, and I have a feeling there are 
 a lot of changes to be made just for that. 
 
 But I really don't know as of now, there are so many flags and macros lying
-aroung I coudn't make any sense of. I don't even know how to ask the questions I
+around I couldn't make any sense of. I don't even know how to ask the questions I
 need to ask to get help. It is apparent I don't really understand the code yet,
 but I am trying my best. I felt similarly when I wrote my first patch.
 
