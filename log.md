@@ -37,3 +37,20 @@ is a good sign.
 
 Tomorrow I will try to make more sense of the code and hopefully start writing
 the muxer.
+
+### June 6: Thursday
+
+One of the main features of heif is that it can support a wide range of codecs,
+hevc being the focus as it provided the best compression (the reason it is known
+for being twice as efficient as jpeg images in terms of space). Now it would
+make sense if the muxer I write supports hevc by default. So I decided to go for
+it, but the mov muxer itself doesn't support hevc, and I have a feeling there is 
+a lot of changes to be made just for that. 
+
+But I really don't know as of now, there are so many flags and macros lying
+aroung I coudn't make any sense of. I don't even know how to ask the questions I
+need to ask to get help. It is apparent I don't really understand the code yet,
+but I am trying my best. I felt similarly when I wrote my first patch.
+
+I did some minor changes for the muxer, and currently just experimenting with
+the code to understand it better.
