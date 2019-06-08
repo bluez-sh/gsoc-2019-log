@@ -54,3 +54,18 @@ but I am trying my best. I felt similarly when I wrote my first patch.
 
 I did some minor changes for the muxer, and currently just experimenting with
 the code to understand it better.
+
+### June 7: Friday
+
+I feel stupid (as I predicted). I have been worrying too much about the
+things I shouldn't be worrying about, or at least not till much later. I guess
+Carl could foresee this as well, he warned me ahead. A wise man, he is.
+
+At last I wrote some meaningful code. Implemented some boxes. Can only test once
+I am finished though.
+
+I realised Apple uses 'tiles' extensively (another important feature of heif). 
+It means sort of breaking a full image down into smaller images or 'tiles' (like
+in a grid) and then processing them separately. This has a lot of advantages
+including parallelism and efficient use of memory. But it is a pain to
+implement. For now I'll have to make do with single image items.
