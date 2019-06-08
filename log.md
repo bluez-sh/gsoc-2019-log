@@ -69,3 +69,12 @@ It means sort of breaking a full image down into smaller images or 'tiles' (like
 in a grid) and then processing them separately. This has a lot of advantages
 including parallelism and efficient use of memory. But it is a pain to
 implement. For now I'll have to make do with single image items.
+
+### June 8: Saturday
+
+Implemented all remaining boxes which are essential, only mdat remains. Tomorrow
+I'll take care of mdat, and finally test the muxer, and hope it works (which it
+most probably won't).
+
+I might have to read some more code to find out how exactly the image data
+received from a jpeg file will be written into mdat.
