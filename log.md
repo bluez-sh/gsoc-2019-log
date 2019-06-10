@@ -78,3 +78,19 @@ most probably won't).
 
 I might have to read some more code to find out how exactly the image data
 received from a jpeg file will be written into mdat.
+
+### June 10: Monday
+
+Due to circumstances I had to take a day off, I hope it is allowed. Anyway I
+guess taking a day off at weekend is okay sometimes. I plan to make up for it 
+in the weekdays though.  
+
+Finally finished writing the muxer, tested it, and it worked! It converted a
+jpeg file into heic without any problems! And I was so happy it worked right
+away! And as I inspected it with MP4Box, I found the hevc config (hvcC tag) was
+not written properly, dunno why. So... no heic for me yet. :(
+
+I used the write_hvcc_tag function which was already defined in the mov muxer,
+maybe there is something different with the way it is implemented in heic, I
+need to check it out properly. I'll try to fix it now, maybe ask in the irc (or
+Carl if he is available), or I'll do it tomorrow.
