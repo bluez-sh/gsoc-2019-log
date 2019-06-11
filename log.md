@@ -94,3 +94,19 @@ I used the write_hvcc_tag function which was already defined in the mov muxer,
 maybe there is something different with the way it is implemented in heic, I
 need to check it out properly. I'll try to fix it now, maybe ask in the irc (or
 Carl if he is available), or I'll do it tomorrow.
+
+### June 11: Tuesday
+
+It worked! I fixed it by morning. Apparently memory wasn't allocated for
+extradata that was needed to write hevc decoder config. I just tried adding that
+code before calling in heic related functions, and it worked like a charm!
+
+So I tested it on a few jpeg files, and the results were pretty astonishing. A
+2.8M jpeg file was converted into a heic file of 350K! Now that's way less than
+50% the original size, and that too with practically no visible difference! Now
+that's a lot of exclamations but you get the point, hevc compression is indeed
+"state-of-the-art" as Apple likes to call it.
+
+I talked to Carl and he suggested I start working on the heic demuxer and make
+it read the files I generated using the muxer. Pretty neat. I guess I'll start
+tomorrow, or maybe tonight.
