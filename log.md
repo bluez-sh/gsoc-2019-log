@@ -121,3 +121,22 @@ because I didn't implement a few boxes, which didn't seem much relevant at that
 point.
 
 I plan to start writing a basic demuxer today (Thursday as of writing).
+
+### June 13: Thursday
+
+I spent a good amount of time in understanding clearly how the mov demuxer
+works.  It felt so... Automatic. As if the structure in itself was so very self
+sufficient, as if it had a mind of its own...
+
+Okay, kidding aside, I finally saw what a demuxer of this scale actually looks
+like. There are so many corner cases you need to take care of. It must be so
+robust that it could parse the file even if it is corrupted in some way (up to
+some extent). Muxers are easy, you write what exactly you want without worrying
+much. Anyway, as of now I have to implement a very simple demuxer, and improve
+it later. Till now I have implemented a few boxes, I guess I could finish the
+rest by tomorrow.
+
+Okay okay I know that previously a conversion test that I did from jpeg to heic
+is a lossy to lossy conversion (because jpeg itself contained a lossy compressed
+image), and might not be the best way to test it, but to still be able to
+compress that much further was indeed astonishing.
