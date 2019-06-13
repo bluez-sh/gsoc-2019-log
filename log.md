@@ -110,3 +110,14 @@ that's a lot of exclamations but you get the point, hevc compression is indeed
 I talked to Carl and he suggested I start working on the heic demuxer and make
 it read the files I generated using the muxer. Pretty neat. I guess I'll start
 tomorrow, or maybe tonight.
+
+### June 12: Wednesday
+
+I spent most of my time reading the mov demuxer code. Aside from that, I found
+the heic images that my muxer produces doesn't work on OSX for some reason, says
+they're broken. When I uploaded to google drive I could view it though. I
+couldn't yet identify why is it so, but I'll find it soon enough. Maybe its
+because I didn't implement a few boxes, which didn't seem much relevant at that
+point.
+
+I plan to start writing a basic demuxer today (Thursday as of writing).
