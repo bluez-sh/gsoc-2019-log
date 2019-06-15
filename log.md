@@ -140,3 +140,19 @@ Okay okay I know that previously a conversion test that I did from jpeg to heic
 is a lossy to lossy conversion (because jpeg itself contained a lossy compressed
 image), and might not be the best way to test it, but to still be able to
 compress that much further was indeed astonishing.
+
+### June 15: Saturday
+
+The demuxer is almost complete, the very basic version. But I might have to take
+care of a lot of things before it can actually work. As of now there is a seg
+fault somewhere, but I guess I know where it is. Too tired to look now though.
+
+Okay, I wasted a lot of time thinking about the best way of implementation,
+it was a bit complicated how to setup different boxes here, very unlike the
+muxer. In many cases confused between mov_read_default or individual parse
+function. Some parts of it I wrote nicely some are incomplete. There are still
+so many things to test that I am not sure will work. Will continue tomorrow.
+
+I am going on a vacation for 6 days the day after tomorrow. So might not be able
+to write much or everyday on logs, but I'll still be working, just fewer hours
+whenever I can.
