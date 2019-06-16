@@ -156,3 +156,15 @@ so many things to test that I am not sure will work. Will continue tomorrow.
 I am going on a vacation for 6 days the day after tomorrow. So might not be able
 to write much or everyday on logs, but I'll still be working, just fewer hours
 whenever I can.
+
+### June 16: Sunday
+
+Debugging is damn frustrating, but gdb makes it a lot easier with tonnes of
+awesome features it provides. Easily finding seg faults, inspecting variables,
+conditional breakpoints, and what not. Getting comfortable with gdb has always
+come in handy for me.
+
+Anyway, so I found the seg fault, it was what I thought it was. Fixed it, other
+errors started to appear though. After some investigation I found all the
+offsets are shifted. Somewhere there is a bad piece of code that does that, or
+maybe absence of some code. Still couldn't find where it went wrong...
