@@ -168,3 +168,12 @@ Anyway, so I found the seg fault, it was what I thought it was. Fixed it, other
 errors started to appear though. After some investigation I found all the
 offsets are shifted. Somewhere there is a bad piece of code that does that, or
 maybe absence of some code. Still couldn't find where it went wrong...
+
+### June 19: Wednesday
+
+It's driving me crazy, still couldn't find where the problem is. Everything
+seems to be working fine. And what's amusing is the value of a variable that is
+read from the file is random every time I run ffmpeg. I have no clue where
+this random element could come from, some really weird thing is happening
+somewhere. Although I have narrowed down the portion to search in. Let's see
+what I can find.
