@@ -177,3 +177,20 @@ read from the file is random every time I run ffmpeg. I have no clue where
 this random element could come from, some really weird thing is happening
 somewhere. Although I have narrowed down the portion to search in. Let's see
 what I can find.
+
+### June 21: Friday
+
+All this time I was searching everywhere, went through every line of code in
+absolute detail, debugging away... turns out I just forgot to initialize ONE
+LITTLE VARIABLE to zero! This is embarrassing. I wasted so much time on this I
+want to hit myself. I could also have found this earlier if only I could have
+been more careful while debugging. I thought when inspecting a variable in an
+assignment instruction, it is already updated, whereas the shown statement
+actually executes after we proceed to the next instruction (hence I kept seeing
+garbage values all throughout the program). And also of course I am on a
+vacation so I didn't get much time, when I did I was really tired of travelling
+and all, even now I am. But anyway, it finally worked, demuxed the file I muxed
+before nicely.
+
+To finally witness the image or video played by ffmpeg is quite rewarding,
+and really worth it.
