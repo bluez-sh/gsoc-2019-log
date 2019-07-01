@@ -194,3 +194,35 @@ before nicely.
 
 To finally witness the image or video played by ffmpeg is quite rewarding,
 and really worth it.
+
+### June 30: Sunday
+
+In the last week I was mostly investigating why the heic file produced by the
+muxer didn't work on MacOS. The heic files produced in mac were almost identical
+to the one our muxer produced. It took a lot of time, I was stuck again, but
+then I realised (Carl also helped) that colr tag and pixi tags were required for
+some reason, even though nothing such is mentioned in the standard (afaik).
+
+I would have implemented them before whatever the case, but the colr tag was a
+bit tricky, and so I kept looking for a better option. The colr tag function
+already present in the movenc.c did not support generating and writing icc
+profiles (which were required for "prof" colour type, which in turn was required
+for Apple compatible heic files). It could have been a lot of work to implement
+that, I didn't even know how to. But then I tried a dirty hack of just copying
+the colr tag from existing files and hard coding them into the muxer, and it
+worked perfectly! The muxer finally produced Apple compatible heic files! But
+of course I have to find a better way...
+
+### July 1: Monday
+
+Carl sent me a sample without colr atom, which was compatible with Apple. Now I
+did have other samples where there was not colr atom which worked as well, but
+looking at that file I realised what the reason could be, and I was right. Looks
+like placing the iloc atom before certain atoms is the solution, it was that
+simple (but not so easy to guess as nothing such is mentioned in the standard).
+
+So I don't need to write the hard coded colr tag anymore, I can still produce
+Apple compatible files. Muxer is pretty much done now. I will have to focus on
+the demuxer henceforth (which is much important). Specifically I have to think
+on how to manage tiles, which is, I guess, the most challenging part of the
+project.
