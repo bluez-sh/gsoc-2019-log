@@ -216,7 +216,7 @@ of course I have to find a better way...
 ### July 1: Monday
 
 Carl sent me a sample without colr atom, which was compatible with Apple. Now I
-did have other samples where there was not colr atom which worked as well, but
+did have other samples where there was no colr atom which worked as well, but
 looking at that file I realised what the reason could be, and I was right. Looks
 like placing the iloc atom before certain atoms is the solution, it was that
 simple (but not so easy to guess as nothing such is mentioned in the standard).
@@ -226,3 +226,22 @@ Apple compatible files. Muxer is pretty much done now. I will have to focus on
 the demuxer henceforth (which is much important). Specifically I have to think
 on how to manage tiles, which is, I guess, the most challenging part of the
 project.
+
+### July 2: Tuesday
+
+I did some research on tiled heif files. Looked through old discussions in
+projects like imagemagik and gpac. They have already added working support for
+heif, and reading through those discussions gave me a lot of insight on how
+Apple did things with their files.
+
+Looks like Apple heic files typically divide an image into 48 tiles (8x6), each
+usually of size 512x512, sequentially ordered from left to right and top to
+bottom. If the full image does not have an even size, some part in the left edge
+and bottom edge is apparently left blank, and needs to be cropped (not sure
+about this but found it in a discussion). These tiles are also individual hevc
+encoded frames and hence will need to be decoded individually and then stitched
+up to get the full image. Sounds pretty simple but actually implementing it is
+another story. 
+
+Anyway, will have to do some more investigation, and maybe discuss things with
+other developers before I start implementing. 
