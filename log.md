@@ -245,3 +245,30 @@ another story.
 
 Anyway, will have to do some more investigation, and maybe discuss things with
 other developers before I start implementing. 
+
+### July 4: Friday
+
+I had some questions so I asked the community. My first doubt was weather I
+should create different streams for each tile or somehow keep all the tiles (as
+frames) in a single stream. They (including Carl) thought that the former was a
+bad idea. I didn't know how to implement the latter, I will have to research
+some more. They also suggested that for now I need to write a new side data type
+(in libavutil/frame.h) and make the demuxer output frames from tiles. They
+mentioned some other things (which I didn't quite understand yet), but all in
+all I understood that it was possible to pass the information such as final
+image resolution, the tile resolution, the tile pixel format, and the tile
+location along with each frame (as side data) so that the hevc decoder can
+reconstruct the final image. Now how to actually do that is something I don't
+know yet, will have to find out. It also seemed like some modification to the
+decoder itself might be needed, I am not really sure though.  
+
+### July 5: Saturday
+
+I improved the demuxer a bit. Added code to handle the cases where either iloc
+would appear first or iinf, along with other changes. Right now I am also trying
+to decide how to handle the item association logic. There is one way, which was
+done in a previous patch, which I also thought to use, but that was kind of
+specific to having different streams for different items. And that is not an
+implementation that will work in the long run. I am trying hard to think of
+another way but I guess before deciding that I would need to discuss things with
+Carl, get his ideas on it.
