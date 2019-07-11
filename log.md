@@ -272,3 +272,60 @@ specific to having different streams for different items. And that is not an
 implementation that will work in the long run. I am trying hard to think of
 another way but I guess before deciding that I would need to discuss things with
 Carl, get his ideas on it.
+
+### July 7: Monday
+
+I cannot contact Carl, maybe he is busy right now. Until I talk to him I don't
+think I'll be able to do much at this point. I did some more changes on the
+demuxer. Right now the demuxer is able to read the files created by me (simple
+heif files with single images) and I am also trying to extend it to read the
+images with with tiles (original images in the ticket). I read the the patch
+posted a few years ago, and I found the item association logic in it was good
+enough and (most importantly) working. So I copied the whole iprp function from
+it (please don't judge me :/) and made changes in my code to work with it. There
+are a few problems though, I'll take care of them tomorrow.
+
+Apart from that I have also been looking around the code base for what the other
+developers suggested, and its getting more and more confusing, I am really not
+sure what to do.
+
+### July 8: Tuesday
+
+A small success! I finally made it work with the files with tiles (with some
+hacks here and there). The demuxer can now read tiles, one in each stream as
+attached pics. Although the hacks I did are quite problematic and should be
+taken care of soon. 
+
+The iinf tag consists of a list of all items, with their types (hvc1, grid and
+Exif). As of now I am creating the streams within this tag. But the problem was
+that only 1 through 48 items were the tiles (hvc1 type). Others were a "grid"
+item which consisted grid info, a thumbnail and Exif item for exif metadata. I
+had to hard code things to get only the tiles and ignore others. I did these
+"hacks" at other portions (iloc, iprp) as well. All in all I need to design a
+better structure that doesn't need these hacks. Also, the grid item has mdat
+offset values instead of file offset values, and as we don't know the location
+of mdat until the very end I can't figure out what to do about that.
+
+### July 9: Wednesday
+
+I was finally able to talk to Carl today. He suggested that we could somehow
+inform the calling application (ffmpeg here, which works on libav\*) that the
+frames (tiles) are the part of a bigger picture and the application should do
+something about that. This is one possibility, the other being the "side data to
+decoder" approach, which could be more difficult. He also mentioned that I
+should focus on keeping the tiles not in different streams but in a single
+stream as if they were part of a movie. I have started working on it. I guess I
+could use add_index_entry to add each tile as a frame to a single stream.
+
+### July 10: Thursday
+
+I used the add_index_entry approach. I guess I did successfully read all the
+tiles into a single stream. Although to do this I had to strip off the current
+structure which was based on different streams. There as still some things which
+are hard coded but it is better than before. I am still using attached pic
+approach for the simpler files (without tiles) so they still work with it. Using
+index entries only with files with tiles. I am not sure if I am using the index
+entries correctly though, even though I checked entries are correctly added, I
+am not able to see any frames with ffplay, it doesn't display anything. There
+are no errors either. Maybe it is discarding the frames or something I don't
+know but there is something wrong, I'll have to consult Carl again maybe :/
