@@ -246,7 +246,7 @@ another story.
 Anyway, will have to do some more investigation, and maybe discuss things with
 other developers before I start implementing. 
 
-### July 4: Friday
+### July 4: Thursday
 
 I had some questions so I asked the community. My first doubt was weather I
 should create different streams for each tile or somehow keep all the tiles (as
@@ -262,7 +262,7 @@ reconstruct the final image. Now how to actually do that is something I don't
 know yet, will have to find out. It also seemed like some modification to the
 decoder itself might be needed, I am not really sure though.  
 
-### July 5: Saturday
+### July 5: Friday
 
 I improved the demuxer a bit. Added code to handle the cases where either iloc
 would appear first or iinf, along with other changes. Right now I am also trying
@@ -273,7 +273,7 @@ implementation that will work in the long run. I am trying hard to think of
 another way but I guess before deciding that I would need to discuss things with
 Carl, get his ideas on it.
 
-### July 7: Monday
+### July 7: Sunday
 
 I cannot contact Carl, maybe he is busy right now. Until I talk to him I don't
 think I'll be able to do much at this point. I did some more changes on the
@@ -289,7 +289,7 @@ Apart from that I have also been looking around the code base for what the other
 developers suggested, and its getting more and more confusing, I am really not
 sure what to do.
 
-### July 8: Tuesday
+### July 8: Monday
 
 A small success! I finally made it work with the files with tiles (with some
 hacks here and there). The demuxer can now read tiles, one in each stream as
@@ -306,7 +306,7 @@ better structure that doesn't need these hacks. Also, the grid item has mdat
 offset values instead of file offset values, and as we don't know the location
 of mdat until the very end I can't figure out what to do about that.
 
-### July 9: Wednesday
+### July 9: Tuesday 
 
 I was finally able to talk to Carl today. He suggested that we could somehow
 inform the calling application (ffmpeg here, which works on libav\*) that the
@@ -317,7 +317,7 @@ should focus on keeping the tiles not in different streams but in a single
 stream as if they were part of a movie. I have started working on it. I guess I
 could use add_index_entry to add each tile as a frame to a single stream.
 
-### July 10: Thursday
+### July 10: Wednesday 
 
 I used the add_index_entry approach. I guess I did successfully read all the
 tiles into a single stream. Although to do this I had to strip off the current
@@ -329,3 +329,23 @@ entries correctly though, even though I checked entries are correctly added, I
 am not able to see any frames with ffplay, it doesn't display anything. There
 are no errors either. Maybe it is discarding the frames or something I don't
 know but there is something wrong, I'll have to consult Carl again maybe :/
+
+### July 11: Thursday
+
+Hmm... Strange. I sent the logs from before to Carl and he said that only one
+frame is decoded. But I am pretty sure I set up the index correctly, why then
+are not all the tiles decoded? I sent a mail to Carl, meanwhile I'll see if I
+can figure it out myself...
+
+### July 12: Friday 
+
+After hours of debugging I finally figured it out (at times like this I feel
+like Sherlock Holmes trying to find the killer, only he seems to know what he is
+doing :/ ). So I just had to initialize the MOVStreamContext::pb with the
+AVFormatContext::pb. Now I could see all 48 tiles one by one as if in a
+slideshow on ffplay. Progress!
+
+This was a milestone I guess. Next step would be to somehow pass these tiles to
+the calling application and inform it to stitch them together. I haven't worked
+at this level of application before so don't really know the details of it.
+This was Carl's idea, I hope he sheds some light on it.
