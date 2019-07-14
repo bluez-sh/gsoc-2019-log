@@ -349,3 +349,28 @@ This was a milestone I guess. Next step would be to somehow pass these tiles to
 the calling application and inform it to stitch them together. I haven't worked
 at this level of application before so don't really know the details of it.
 This was Carl's idea, I hope he sheds some light on it.
+
+### July 13: Saturday
+
+I used ffmpeg to split the tiled heic files into multiple 'tiles%d.jpg'. I found
+ffmpeg already has a tiles filter which can be used to stitch tiles together to
+reconstruct the full image. I found the command to do that and voila! I had the
+full image as output!
+
+So at this stage the demuxer is still useful, one can use the above commands to
+get the desired image. But of course a better solution would be to somehow make
+ffmpeg do all this automatically for files with tiles. The image would also need
+to be cropped to its actual resolution and rotations (if any) applied.
+Considering all these it looks like letting the calling application handle tiles
+was a good suggestion that Carl made.
+
+Currently, I am browsing through the ffmpeg application code, and waiting for
+Carl's reply of course.
+
+### July 14: Sunday
+
+In the process of hard coding certain things for tile management, I managed to
+break the demuxer for simpler files :( So I got rid of those, considered some
+corner cases and as of now it works like a charm with any file I throw at it :)
+Of course I only have a few samples but still this is the first time all of them
+worked on my demuxer. I will have to get more samples soon though.
