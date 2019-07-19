@@ -374,3 +374,72 @@ break the demuxer for simpler files :( So I got rid of those, considered some
 corner cases and as of now it works like a charm with any file I throw at it :)
 Of course I only have a few samples but still this is the first time all of them
 worked on my demuxer. I will have to get more samples soon though.
+
+### July 16: Tuesday
+
+Couldn't do much yesterday, just read through the ffmpeg.c and swf demuxer (has
+the same problems of tiles) but couldn't understand much, will have to look into
+them again. Got Carl's reply, he asked me to av_log crucial info (like the
+placement of the tiles, tile resolution, final image resolution, grid resolution
+etc.). I did it for the tile placement, other info I either had to assume or
+have yet to read. Reading some of the info is a bit complicated so I am trying
+to do it as simply as possible. Like the grid info is present at the top of mdat
+and we don't know the position of mdat until the end. Will have to do something
+about that. These are some assumptions I am making as of now:
+
+1. Tiled files always have 48 tiles
+2. They are always item id 1 through 48 (other items after these)
+3. All tiles have resolution 512x512
+4. Grid is always 8x6 (portrait pics are rotated)
+
+### July 17: Wednesday
+
+Turns out most of my assumptions were wrong (if not all of them ':D). Carl
+pointed them out and he was right (as usual). 
+
+I created more samples of various resolutions from 512x512 to 8k (I dunno why it
+did not come to my mind before ':D), and as Carl mentioned, I did find that the
+number of tiles, and grid rows and cols were different. Tile resolution was
+always 512x512 though if they were present at all. But either way, I am reading
+that as well (including most other crucial info).
+
+I also read the standard again and I found the grid was not actually at media
+data (mdat) but at item data (idat). I realised I mistook it for the other (can
+you see why? No? Anybody...?). But now the demuxer can successfully read the
+grid data (rows and cols and output image resolution), or it can even read image
+data if it were present in idat (Apple doesn't do that but still).
+
+The standard mentions that for a grid, all tiles should have entries in iinf
+sequentially, followed by a grid. So, I am going to trust the standard on that,
+or it will become a lot more complex.
+
+### July 18: Thursday
+
+I made more changes and finally informed Carl. I guess I have enough info now to
+proceed into the next (potentially final) task, and a more difficult one, how to
+stitch the tiles together. I guess the task itself is not that difficult but to
+choose one (or a combination) among the three reasons that are in discussion now
+turns out is going to raise a lot of debate. None of the three are "correct"
+solutions but just "different" solutions and have their own merits and demerits.
+Different developers have different views regarding which merits or demerits
+should be considered. The three possibilities are:
+
+1. To send enough info to the hevc decoder so that it decodes and returns the
+   final decoded frame. This will work out-of-the-box for all applications that
+   use libav\*, but would require changes to both the decoder and the demuxer
+   (hence might not be that desirable).
+2. To send enough info to the calling application (ffmpeg, here) and let the
+   application handle it. This will not work for other applications (unless
+   specifically implemented) and hence is not a complete solution.
+3. To let the demuxer handle it, so that it (directly) calls the decoder to
+   decode the frame and present to the calling application as raw video frame as
+   if nothing was encoded. This of course breaks the separation between the
+   demuxer and the decoder, and hence could be considered as not a good practise
+   (but a quite simple solution).
+
+Carl suggested that we implement a combination of these solutions so as to
+consider other developers view points. I wrecked my brain so much but I couldn't
+decided yet what combination to implement. For now I have decided to just know
+more about these solutions to make an informed decision. But I know that
+whatever decision I make will not be accepted by everyone. I wonder if I would
+be able to get this patch accepted before GSoC ends...
